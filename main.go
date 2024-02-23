@@ -51,7 +51,7 @@ func main() {
 	}
 
 	err = tf5server.Serve(
-		"registry.terraform.io/hashicorp/google",
+		"registry.terraform.io/public-cloud-wl/google",
 		muxServer.ProviderServer,
 		serveOpts...,
 	)
