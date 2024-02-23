@@ -369,54 +369,7 @@ func resourceStorageBucketObjectCreate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceStorageBucketObjectUpdate(d *schema.ResourceData, meta interface{}) error {
-	config := meta.(*transport_tpg.Config)
-	userAgent, err := tpgresource.GenerateUserAgentString(d, config.UserAgent)
-	if err != nil {
-		return err
-	}
-
-	bucket := d.Get("bucket").(string)
-	name := d.Get("name").(string)
-
-	objectsService := storage.NewObjectsService(config.NewStorageClientWithTimeoutOverride(userAgent, d.Timeout(schema.TimeoutUpdate)))
-	getCall := objectsService.Get(bucket, name)
-
-	res, err := getCall.Do()
-	if err != nil {
-		return fmt.Errorf("Error retrieving object during update %s: %s", name, err)
-	}
-
-	hasRetentionChanges := d.HasChange("retention")
-	if hasRetentionChanges {
-		if v, ok := d.GetOk("retention"); ok {
-			res.Retention = expandObjectRetention(v)
-		} else {
-			res.Retention = nil
-			res.NullFields = append(res.NullFields, "Retention")
-		}
-	}
-
-	if d.HasChange("event_based_hold") {
-		v := d.Get("event_based_hold")
-		res.EventBasedHold = v.(bool)
-	}
-
-	if d.HasChange("temporary_hold") {
-		v := d.Get("temporary_hold")
-		res.TemporaryHold = v.(bool)
-	}
-
-	updateCall := objectsService.Insert(bucket, name, res)
-	if hasRetentionChanges {
-		updateCall.OverrideUnlockedRetention(true)
-	}
-	_, err = updateCall.Do()
-
-	if err != nil {
-		return fmt.Errorf("Error updating object %s: %s", name, err)
-	}
-
-	return nil
+  return resourceStorageBucketObjectCreate(d, meta)
 }
 
 func resourceStorageBucketObjectRead(d *schema.ResourceData, meta interface{}) error {
