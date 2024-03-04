@@ -114,7 +114,7 @@ Leave this field blank to advertise no custom groups.`,
 				},
 			},
 			"advertised_ip_ranges": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Description: `User-specified list of individual IP ranges to advertise in
 custom mode. This field can only be populated if advertiseMode
