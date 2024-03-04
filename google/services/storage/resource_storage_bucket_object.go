@@ -379,7 +379,7 @@ func resourceStorageBucketObjectUpdate(d *schema.ResourceData, meta interface{})
 	name := d.Get("name").(string)
 
 	if d.HasChange("content") || d.HasChange("detect_md5hash") {
-    d.Set("kms_key_name", nil)
+		d.Set("kms_key_name", nil)
 		return resourceStorageBucketObjectCreate(d, meta)
 	} else {
 

@@ -778,7 +778,7 @@ func flattenClouddeployTargetLabels(v map[string]string, d *schema.ResourceData)
 
 	transformed := make(map[string]interface{})
 	if l, ok := d.Get("labels").(map[string]interface{}); ok {
-		for k, _ := range l {
+		for k := range l {
 			transformed[k] = v[k]
 		}
 	}
@@ -793,7 +793,7 @@ func flattenClouddeployTargetTerraformLabels(v map[string]string, d *schema.Reso
 
 	transformed := make(map[string]interface{})
 	if l, ok := d.Get("terraform_labels").(map[string]interface{}); ok {
-		for k, _ := range l {
+		for k := range l {
 			transformed[k] = v[k]
 		}
 	}
@@ -808,7 +808,7 @@ func flattenClouddeployTargetAnnotations(v map[string]string, d *schema.Resource
 
 	transformed := make(map[string]interface{})
 	if l, ok := d.Get("annotations").(map[string]interface{}); ok {
-		for k, _ := range l {
+		for k := range l {
 			transformed[k] = v[k]
 		}
 	}

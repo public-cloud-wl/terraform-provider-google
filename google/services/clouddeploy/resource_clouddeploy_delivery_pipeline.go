@@ -1696,7 +1696,7 @@ func flattenClouddeployDeliveryPipelineLabels(v map[string]string, d *schema.Res
 
 	transformed := make(map[string]interface{})
 	if l, ok := d.Get("labels").(map[string]interface{}); ok {
-		for k, _ := range l {
+		for k := range l {
 			transformed[k] = v[k]
 		}
 	}
@@ -1711,7 +1711,7 @@ func flattenClouddeployDeliveryPipelineTerraformLabels(v map[string]string, d *s
 
 	transformed := make(map[string]interface{})
 	if l, ok := d.Get("terraform_labels").(map[string]interface{}); ok {
-		for k, _ := range l {
+		for k := range l {
 			transformed[k] = v[k]
 		}
 	}
@@ -1726,7 +1726,7 @@ func flattenClouddeployDeliveryPipelineAnnotations(v map[string]string, d *schem
 
 	transformed := make(map[string]interface{})
 	if l, ok := d.Get("annotations").(map[string]interface{}); ok {
-		for k, _ := range l {
+		for k := range l {
 			transformed[k] = v[k]
 		}
 	}
