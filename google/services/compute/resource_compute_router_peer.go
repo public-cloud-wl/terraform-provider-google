@@ -114,7 +114,7 @@ Leave this field blank to advertise no custom groups.`,
 				},
 			},
 			"advertised_ip_ranges": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Description: `User-specified list of individual IP ranges to advertise in
 custom mode. This field can only be populated if advertiseMode
@@ -366,7 +366,7 @@ func resourceComputeRouterBgpPeerCreate(d *schema.ResourceData, meta interface{}
 	} else if v, ok := d.GetOkExists("advertised_groups"); ok || !reflect.DeepEqual(v, advertisedGroupsProp) {
 		obj["advertisedGroups"] = advertisedGroupsProp
 	}
-	advertisedIpRangesProp, err := expandNestedComputeRouterBgpPeerAdvertisedIpRanges(d.Get("advertised_ip_ranges"), d, config)
+	advertisedIpRangesProp, err := expandNestedComputeRouterBgpPeerAdvertisedIpRanges(d.Get("advertised_ip_ranges").([]interface{}), d, config)
 	if err != nil {
 		return err
 	} else if v, ok := d.GetOkExists("advertised_ip_ranges"); ok || !reflect.DeepEqual(v, advertisedIpRangesProp) {
@@ -1096,6 +1096,7 @@ func expandNestedComputeRouterBgpPeerAdvertisedGroups(v interface{}, d tpgresour
 }
 
 func expandNestedComputeRouterBgpPeerAdvertisedIpRanges(v interface{}, d tpgresource.TerraformResourceData, config *transport_tpg.Config) (interface{}, error) {
+	v = v.(*schema.Set).List()
 	l := v.([]interface{})
 	req := make([]interface{}, 0, len(l))
 	for _, raw := range l {
